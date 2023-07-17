@@ -12,4 +12,11 @@
   <p>작성일시:
     {{ post.created_at }}</p>
 
+  <a href="{% url 'blog:edit' pk=post.pk %}" class="btn">수정</a>
+  <form action="{% url 'blog:delete' pk=post.pk %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="삭제" class="btn">
+  </form>
+  <a href="{% url 'blog:list' %}" class="btn">목록</a>
+
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <p>게시글 작성</p>
+
+  {% if form.errors %}
+    {% include 'blog/form_error.html' %}
+  {% else %}
+    <form action="{% url 'blog:write' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="btn btn-outline-success"/>
+    </form>
+  {% endif %}
+
+{% endblock %}

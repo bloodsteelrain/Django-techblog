@@ -2,22 +2,29 @@
 
 {% block content %}
   <p>게시글 목록 화면입니다.</p>
+  <form action="{% url 'blog:write' %}" method="get">
+    <input type="submit" value="글 작성" class="btn btn-outline-success">
+  </form>
 
   {% if posts %}
     <table class="table table-boardered">
       <thead class='table-light'>
         <tr>
+          <td>번호</td>
           <td>제목</td>
           <td>작성자</td>
+          <td>작성일</td>
         </tr>
       </thead>
       <tbody>
         {% for post in posts %}
           <tr>
+            <td>{{ post.pk }}</td>
             <td>
               <a href="{% url 'blog:detail' pk=post.pk %}" class="btn">{{ post.title }}</a>
             </td>
             <td>{{ post.writer }}</td>
+            <td>{{ post.created_at | date:"y.m.d" }}</td>
           </tr>
         {% endfor %}
       </tbody>
