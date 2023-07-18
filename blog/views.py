@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
 
 # Create your views here.
@@ -13,6 +13,7 @@ class Index(View):
         context = {
             'title': 'Blog',
             'posts': posts,
+            'categories': Category.objects.all(),
         }
         return render(request, 'blog/post_list.html', context)
 
@@ -82,3 +83,15 @@ class Delete(View):
         post = Post.objects.get(pk=pk)
         post.delete()
         return redirect('blog:list')
+
+
+class CategoryView(View):
+    def get(self, request, c_name):
+        category = Category.objects.get(name=c_name)
+        posts = Post.objects.filter(category=category).order_by('-created_at')
+        context = {
+            'title': 'Blog',
+            'posts': posts,
+            'categories': Category.objects.all(),
+        }
+        return render(request, 'blog/post_list.html', context)
