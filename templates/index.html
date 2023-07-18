@@ -2,6 +2,8 @@
 {% block content %}
   <h2>Index page</h2>
   <h3>Welcome!</h3>
+  <a href="{% url 'user:register' %}" class='btn'>회원가입</a>
+  <a href="{% url 'user:login' %}" class='btn'>로그인</a>
   <a href="{% url 'blog:list' %}" class='btn'>블로그 입장하기</a>
 </body>
 {% endblock %}

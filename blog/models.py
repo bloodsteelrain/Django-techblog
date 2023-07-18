@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Create your models here.
 
@@ -13,7 +16,7 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=30)
     content = models.TextField()
-    writer = models.CharField(max_length=10)
+    writer = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

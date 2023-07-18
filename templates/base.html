@@ -14,15 +14,15 @@
   </head>
 
   <body>
-    {% comment %} <div class="container">
+    <div class="container">
       {% if user.is_authenticated %}
         <p>Welcome,
-          {{ user.email }}</p>
+          {{ user.username }}</p>
         <a href="{% url 'user:logout' %}" class='btn'>Logout</a>
       {% else %}
         <p>Please, Login</p>
         <a href="{% url 'user:login' %}" class='btn'>Login</a>
-      {% endif %} {% endcomment %}
+      {% endif %}
       <h1>{{ title }}</h1>
       {% block content %}{% endblock %}
     </div>
