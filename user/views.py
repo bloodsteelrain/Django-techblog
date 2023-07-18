@@ -29,7 +29,6 @@ class Registration(View):
 # ## 로그인
 class Login(View):
     def get(self, request):
-        # 로그인한 상태일때 보여주는 페이지
         if request.user.is_authenticated:
             return redirect('blog:list')
         form = LoginForm()
@@ -40,7 +39,9 @@ class Login(View):
         return render(request, 'user/user_login.html', context)
 
     def post(self, request):
-        form = LoginForm(request.POST)
+        if request.user.is_authenticated:
+            return redirect('blog:list')
+        form = LoginForm(request, request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
