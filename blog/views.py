@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, Http404
 from .models import Post, Category, Comment, HashTag
 from .forms import PostForm, CommentForm, HashTagForm
 
@@ -13,31 +14,61 @@ from .forms import PostForm, CommentForm, HashTagForm
 class Index(View):
     def get(self, request):
         posts = Post.objects.all().order_by('-created_at')
+        query = request.GET.get('q')
+        search_option = request.GET.get('search_option', 'title+content')
+        if query:
+            if search_option == 'all':
+                posts = Post.objects.filter(
+                    Q(title__icontains=query) |
+                    Q(content__icontains=query) |
+                    Q(writer__username__icontains=query) |
+                    Q(hashtag__name__icontains=query)
+                )
+            elif search_option == 'title+content':
+                posts = Post.objects.filter(
+                    Q(title__icontains=query) | Q(content__icontains=query))
+            elif search_option == 'title':
+                posts = Post.objects.filter(title__icontains=query)
+            elif search_option == 'content':
+                posts = Post.objects.filter(content__icontains=query)
+            elif search_option == 'writer':
+                posts = Post.objects.filter(writer__username__icontains=query)
+            elif search_option == 'tags':
+                posts = Post.objects.filter(hashtag__name__icontains=query)
+            posts = posts.order_by('-created_at')
+        else:
+            posts = Post.objects.all().order_by('-created_at')
+
         context = {
             'title': 'Blog',
             'posts': posts,
             'categories': Category.objects.all(),
+            'query': query,
+            'search_option': search_option,
         }
         return render(request, 'blog/post_list.html', context)
 
 
 class DetailView(View):
     def get(self, request, pk):
-        post = Post.objects.get(pk=pk)
-        comments = Comment.objects.select_related('post').filter(post=post)
-        hashtags = HashTag.objects.select_related('post').filter(post=post)
-        comment_form = CommentForm()
-        hashtag_form = HashTagForm()
+        try:
+            post = Post.objects.get(pk=pk)
+            comments = Comment.objects.select_related('post').filter(post=post)
+            hashtags = HashTag.objects.select_related('post').filter(post=post)
+            comment_form = CommentForm()
+            hashtag_form = HashTagForm()
 
-        context = {
-            'title': 'Blog',
-            'post': post,
-            'comments': comments,
-            'hashtags': hashtags,
-            'comment_form': comment_form,
-            'hashtag_form': hashtag_form,
-        }
-        return render(request, 'blog/post_detail.html', context)
+            context = {
+                'title': 'Blog',
+                'post': post,
+                'comments': comments,
+                'hashtags': hashtags,
+                'comment_form': comment_form,
+                'hashtag_form': hashtag_form,
+            }
+            return render(request, 'blog/post_detail.html', context)
+        except Post.DoesNotExist:
+            raise Http404("존재하지 않는 게시글입니다")
 
 
 class Write(LoginRequiredMixin, View):
