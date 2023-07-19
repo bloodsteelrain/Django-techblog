@@ -57,6 +57,8 @@ class DetailView(View):
             hashtags = HashTag.objects.select_related('post').filter(post=post)
             comment_form = CommentForm()
             hashtag_form = HashTagForm()
+            post.views += 1
+            post.save()
 
             context = {
                 'title': 'Blog',

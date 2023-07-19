@@ -30,6 +30,7 @@
             <td>제목</td>
             <td>작성자</td>
             <td>작성일</td>
+            <td>조회수</td>
           </tr>
         </thead>
         <tbody>
@@ -42,6 +43,7 @@
               </td>
               <td>{{ post.writer }}</td>
               <td>{{ post.created_at | date:"y.m.d" }}</td>
+              <td>{{ post.views }}</td>
             </tr>
           {% endfor %}
         </tbody>
