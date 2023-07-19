@@ -19,6 +19,9 @@ urlpatterns = [
     # 댓글 작성
     path('detail/<int:pk>/comment/write/',
          views.CommentWrite.as_view(), name='cm-write'),
+    # 댓글 작성
+    path('detail/<int:post_pk>/comment/<int:comment_pk>/reply/',
+         views.CommentReply.as_view(), name='cm-reply'),
     # 댓글 삭제
     path('detail/comment/<int:pk>/delete/',
          views.CommentDelete.as_view(), name='cm-delete'),

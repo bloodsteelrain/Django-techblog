@@ -175,6 +175,31 @@ class CommentWrite(LoginRequiredMixin, View):
         return render(request, 'blog/post_detail.html', context)
 
 
+class CommentReply(LoginRequiredMixin, View):
+    def post(self, request, post_pk, comment_pk):
+        form = CommentForm(request.POST)
+        parent_comment = Comment.objects.get(pk=comment_pk)
+
+        if form.is_valid():
+            content = form.cleaned_data['content']
+            writer = request.user
+            post = parent_comment.post
+            comment = Comment.objects.create(
+                post=post, content=content, writer=writer, parent_comment=parent_comment)
+            return redirect('blog:detail', pk=post.pk)
+
+        hashtag_form = HashTagForm()
+        context = {
+            'title': 'Blog',
+            'post': post,
+            'comments': post.comment_set.all(),
+            'hashtags': post.hashtag_set.all(),
+            'comment_form': form,
+            'hashtag_form': hashtag_form
+        }
+        return render(request, 'blog/post_detail.html', context)
+
+
 class CommentDelete(View):
     def post(self, request, pk):
         comment = Comment.objects.get(pk=pk)

@@ -29,6 +29,8 @@ class Comment(models.Model):
     content = models.TextField(max_length=255)
     writer = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    parent_comment = models.ForeignKey(
+        'self', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.content
