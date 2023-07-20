@@ -83,7 +83,7 @@ class Write(LoginRequiredMixin, View):
         return render(request, 'blog/post_form.html', context)
 
     def post(self, request):
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.writer = request.user
@@ -175,6 +175,16 @@ class CommentWrite(LoginRequiredMixin, View):
         return render(request, 'blog/post_detail.html', context)
 
 
+class CommentDelete(View):
+    def post(self, request, pk):
+        comment = Comment.objects.get(pk=pk)
+        post_id = comment.post.id
+        if request.user == comment.writer or request.user == comment.post.writer:
+            comment.delete()
+            return redirect('blog:detail', pk=post_id)
+        return HttpResponseForbidden("삭제 권한이 없습니다.")
+
+
 class CommentReply(LoginRequiredMixin, View):
     def post(self, request, post_pk, comment_pk):
         form = CommentForm(request.POST)
@@ -198,16 +208,6 @@ class CommentReply(LoginRequiredMixin, View):
             'hashtag_form': hashtag_form
         }
         return render(request, 'blog/post_detail.html', context)
-
-
-class CommentDelete(View):
-    def post(self, request, pk):
-        comment = Comment.objects.get(pk=pk)
-        post_id = comment.post.id
-        if request.user == comment.writer or request.user == comment.post.writer:
-            comment.delete()
-            return redirect('blog:detail', pk=post_id)
-        return HttpResponseForbidden("삭제 권한이 없습니다.")
 
 
 # ## 해시태그
