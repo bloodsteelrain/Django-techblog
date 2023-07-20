@@ -19,12 +19,15 @@ urlpatterns = [
     # 댓글 작성
     path('detail/<int:pk>/comment/write/',
          views.CommentWrite.as_view(), name='cm-write'),
-    # 댓글 작성
-    path('detail/<int:post_pk>/comment/<int:comment_pk>/reply/',
-         views.CommentReply.as_view(), name='cm-reply'),
     # 댓글 삭제
     path('detail/comment/<int:pk>/delete/',
          views.CommentDelete.as_view(), name='cm-delete'),
+    # 대댓글 작성
+    path('detail/<int:post_pk>/comment/<int:comment_pk>/reply/write/',
+         views.ReplyWrite.as_view(), name='rp-write'),
+    # 대댓글 삭제
+    path('detail/comment/reply/<int:pk>/delete/',
+         views.ReplyDelete.as_view(), name='rp-delete'),
     # 태그 작성
     path('detail/<int:pk>/hashtag/write/',
          views.HashTagWrite.as_view(), name='tag-write'),

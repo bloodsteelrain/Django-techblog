@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseForbidden, Http404
-from .models import Post, Category, Comment, HashTag
+from .models import Post, Category, Comment, HashTag, Reply
 from .forms import PostForm, CommentForm, HashTagForm
 
 # Create your views here.
@@ -185,17 +185,17 @@ class CommentDelete(View):
         return HttpResponseForbidden("삭제 권한이 없습니다.")
 
 
-class CommentReply(LoginRequiredMixin, View):
+class ReplyWrite(LoginRequiredMixin, View):
     def post(self, request, post_pk, comment_pk):
         form = CommentForm(request.POST)
-        parent_comment = Comment.objects.get(pk=comment_pk)
+        comment = Comment.objects.get(pk=comment_pk)
 
         if form.is_valid():
             content = form.cleaned_data['content']
             writer = request.user
-            post = parent_comment.post
-            comment = Comment.objects.create(
-                post=post, content=content, writer=writer, parent_comment=parent_comment)
+            post = comment.post
+            reply = Reply.objects.create(
+                comment=comment, content=content, writer=writer)
             return redirect('blog:detail', pk=post.pk)
 
         hashtag_form = HashTagForm()
@@ -208,6 +208,16 @@ class CommentReply(LoginRequiredMixin, View):
             'hashtag_form': hashtag_form
         }
         return render(request, 'blog/post_detail.html', context)
+
+
+class ReplyDelete(View):
+    def post(self, request, pk):
+        reply = Reply.objects.get(pk=pk)
+        post_id = reply.comment.post.id
+        if request.user == reply.writer or request.user == reply.comment.writer:
+            reply.delete()
+            return redirect('blog:detail', pk=post_id)
+        return HttpResponseForbidden("삭제 권한이 없습니다.")
 
 
 # ## 해시태그

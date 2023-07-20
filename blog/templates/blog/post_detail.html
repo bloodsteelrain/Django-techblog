@@ -45,32 +45,30 @@
   {% if comments %}
     <ul>
       {% for comment in comments %}
-        {% if not comment.parent_comment %}
-          <li>{{ comment.content }}
-            /
-            {{ comment.created_at }}
-            {% if comment.writer == request.user or comment.post.writer == request.user %}
-              <form action="{% url 'blog:cm-delete' pk=comment.pk %}" method='post'>
+        <li>{{ comment.content }}
+          /
+          {{ comment.created_at }}
+          {% if comment.writer == request.user or comment.post.writer == request.user %}
+            <form action="{% url 'blog:cm-delete' pk=comment.pk %}" method='post'>
+              {% csrf_token %}
+              <input type="submit" value='X' class='btn'>
+            </form>
+          {% endif %}
+          <form action="{% url 'blog:rp-write' post_pk=post.pk comment_pk=comment.pk %}" method="post">
+            {% csrf_token %}
+            {{ comment_form.content }}
+            <input type="submit" value="답글 작성">
+          </form>
+          {% for reply in comment.reply_set.all %}
+            <p>{{ reply.content }}</p>
+            {% if comment.writer == request.user or reply.writer == request.user %}
+              <form action="{% url 'blog:rp-delete' pk=reply.pk %}" method='post'>
                 {% csrf_token %}
                 <input type="submit" value='X' class='btn'>
               </form>
             {% endif %}
-            <form action="{% url 'blog:cm-reply' post_pk=post.pk comment_pk=comment.pk %}" method="post">
-              {% csrf_token %}
-              {{ comment_form.content }}
-              <input type="submit" value="답글 작성">
-            </form>
-            {% for reply in comment.comment_set.all %}
-              <p>{{ reply.content }}</p>
-              {% if comment.writer == request.user or reply.writer == request.user %}
-                <form action="{% url 'blog:cm-delete' pk=comment.pk %}" method='post'>
-                  {% csrf_token %}
-                  <input type="submit" value='X' class='btn'>
-                </form>
-              {% endif %}
-            {% endfor %}
-          </li>
-        {% endif %}
+          {% endfor %}
+        </li>
       {% endfor %}
     </ul>
   {% else %}
