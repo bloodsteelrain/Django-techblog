@@ -36,10 +36,10 @@
 
 - <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
 - <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white">
-- <img src="https://img.shields.io/badge/sqlite-003B57?style=for-the-badge&logo=SQLite&logoColor=white">
 
 ### 2.2 개발 환경
 
+- Python==3.11.4
 - Django==4.2.3
 - Pillow==10.0.0
 
@@ -130,6 +130,10 @@
 
 - 게시글 상세보기 페이지
   ![127 0 0 1_8000_blog_detail_19_](https://github.com/bloodsteelrain/Django-techblog/assets/131739343/b45aca71-3a6a-4509-9a2b-102f5f3c61ab)
+
+- 에러 화면
+  ![127 0 0 1_8000_blog_error_](https://github.com/bloodsteelrain/Django-techblog/assets/131739343/411b6830-f493-4c62-9538-e889abec41de)
+  ![127 0 0 1_8000_blog_delete_error_](https://github.com/bloodsteelrain/Django-techblog/assets/131739343/29d91ff7-cae8-4ec2-8e56-4a2888daa13b)
 
 ## 5. 기능
 
