@@ -5,7 +5,7 @@
   {% if form.errors %}
     {% include 'blog/form_error.html' %}
   {% else %}
-    <form action="{% url 'blog:edit' pk=post.pk %}" method='post'>
+    <form action="{% url 'blog:edit' pk=post.pk %}" method='post' enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
       <input type="submit" value="수정">

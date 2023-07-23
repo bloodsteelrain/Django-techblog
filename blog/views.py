@@ -113,12 +113,10 @@ class Update(View):
 
     def post(self, request, pk):
         post = Post.objects.get(pk=pk)
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if request.user == post.writer:
             if form.is_valid():
-                post.title = form.cleaned_data['title']
-                post.content = form.cleaned_data['content']
-                post.save()
+                form.save()
                 return redirect('blog:detail', pk=pk)
             form.add_error(None, '폼이 유효하지 않습니다.')
             context = {
