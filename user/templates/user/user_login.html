@@ -2,11 +2,21 @@
 
 {% block content %}
 
-  <h2>로그인 페이지</h2>
-  <form action="{% url 'user:login' %}" method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value='로그인'>
-  </form>
+  <div class="container-user">
+    <h2>로그인</h2>
+    <form action="{% url 'user:login' %}" method='post'>
+      {% csrf_token %}
+      <div class="login">
+        <div>
+          <label class="label-width" for="{{ form.username.id_for_label }}">아이디:</label>
+          {{ form.username }}
+        </div>
+        <div>
+          <label class="label-width" for="{{ form.password.id_for_label }}">비밀번호:</label>
+          {{ form.password }}
+        </div>
+        <input type="submit" value='로그인' class="submit-button">
+      </form>
+    </div>
 
-{% endblock %}
+  {% endblock %}
