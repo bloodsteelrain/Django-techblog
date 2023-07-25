@@ -2,70 +2,20 @@
 {% load static %}
 
 {% block content %}
-  <p>게시글 목록 화면입니다.</p>
 
-  <div class="category-menu">
-    <h4>카테고리</h4>
-    <ul>
-      <li>
-        <a href="{% url 'blog:list' %}" class="btn">전체</a>
-      </li>
-      {% for category in categories %}
-        <li>
-          <a href="{% url 'blog:category' c_name=category.name %}" class="btn">{{ category.name }}</a>
-        </li>
-      {% endfor %}
-    </ul>
+  <!-- banner -->
+  <div class="banner">
+    <div class="max-width">
+      <div class="banner-contents">
+        <p class="sub-text">React Blog</p>
+        <p class="main-text">My BLOG</p>
+        <p class="description">
+          The first Django Blog
+        </p>
+      </div>
+    </div>
   </div>
-
-  <div class="post-list">
-    <form action="{% url 'blog:write' %}" method="get">
-      <input type="submit" value="글 작성" class="btn btn-outline-success">
-    </form>
-    {% if posts %}
-      <table class="table table-boardered">
-        <thead class='table-light'>
-          <tr>
-            <td>번호</td>
-            <td>카테고리</td>
-            <td>제목</td>
-            <td>작성자</td>
-            <td>작성일</td>
-            <td>조회수</td>
-          </tr>
-        </thead>
-        <tbody>
-          {% for post in posts %}
-            <tr>
-              <td>{{ forloop.revcounter }}</td>
-              <td>{{ post.category }}</td>
-              <td>
-                <a href="{% url 'blog:detail' pk=post.pk %}" class="btn">{{ post.title }}</a>
-              </td>
-              <td>{{ post.writer }}</td>
-              <td>{{ post.created_at | date:"y.m.d" }}</td>
-              <td>{{ post.views }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% else %}
-      <p>작성된 게시물이 없습니다.</p>
-    {% endif %}
-  </div>
-
-  <form action="{% url 'blog:list' %}" method="get">
-    <select id="search_option" name="search_option">
-      <option value="title+content" selected="selected">제목+내용</option>
-      <option value="title">제목</option>
-      <option value="content">내용</option>
-      <option value="writer">작성자</option>
-      <option value="all">전체</option>
-      <option value="tags">태그</option>
-    </select>
-    <input type="text" name="q" id="search" value="{{ query|default_if_none:'' }}" placeholder="Search...">
-    <button class="btn btn-outline-success" type="submit">검색</button>
-  </form>
+  <!-- //banner -->
   <!-- main -->
   <main>
     <!-- posts -->
@@ -80,7 +30,7 @@
                   {% if post.image %}
                     <img src="{{ post.image.url }}" alt="{{ post.title }}"/>
                   {% else %}
-                    <img src="{% static 'image/noimage.jpg' %}" alt=""/>
+                    <img src="{% static 'images/noimage.jpg' %}" alt="no image"/>
                   {% endif %}
                   <div class="contents-wrap">
                     <!-- category -->
@@ -99,6 +49,9 @@
                         {{ post.writer }}</dd>
                       <dt class="a11y-hidden">Created</dt>
                       <dd class="created">{{ post.created_at | date:"y.m.d" }}</dd>
+                      <dt class="a11y-hidden">Views</dt>
+                      <dd class="created">조회수:
+                        {{ post.views }}</dd>
                     </dl>
                     <!-- //author -->
 
@@ -133,26 +86,39 @@
             </li>
           {% endfor %}
         </ul>
+        <h3>Search</h3>
+        <form action="{% url 'blog:list' %}" method="get" class="search-form">
+          <select id="search_option" name="search_option">
+            <option value="title+content" selected="selected">제목+내용</option>
+            <option value="title">제목</option>
+            <option value="content">내용</option>
+            <option value="writer">작성자</option>
+            <option value="all">전체</option>
+            <option value="tags">태그</option>
+          </select>
+          <input type="text" name="q" id="search" value="{{ query|default_if_none:'' }}" placeholder="Search...">
+          <button type="submit" class="search-button"><img src="{% static 'assets/search.svg' %}" alt="search"/></button>
+        </form>
         <h3>Follow</h3>
         <ul class="sns">
           <li>
             <a href="#">
-              <img src="./assets/Facebook.svg" alt="Facebook"/>
+              <img src="{% static 'assets/Facebook.svg' %}" alt="Facebook"/>
             </a>
           </li>
           <li>
             <a href="#">
-              <img src="./assets/Twitter.svg" alt="Twitter"/>
+              <img src="{% static 'assets/Twitter.svg' %}" alt="Twitter"/>
             </a>
           </li>
           <li>
             <a href="#">
-              <img src="./assets/Instagram.svg" alt="Instagram"/>
+              <img src="{% static 'assets/Instagram.svg' %}" alt="Instagram"/>
             </a>
           </li>
           <li>
             <a href="#">
-              <img src="./assets/Github.svg" alt="GitHub"/>
+              <img src="{% static 'assets/Github.svg' %}" alt="GitHub"/>
             </a>
           </li>
         </ul>

@@ -1,21 +1,25 @@
 /* 로그인 - 회원가입 페이지 */
-.container-user {
+.user-container {
   width: 360px;
   margin: 60px auto;
 }
-.title,
-.description {
+.user-title {
   text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
 }
-.description {
+.user-description {
+  text-align: center;
   margin: 20px 0 40px 0;
   color: #767676;
 }
 /* 로그인 */
 .login > div {
-  margin-bottom: 10px;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
   align-items: center;
+  margin-bottom: 15px;
 }
 
 .login > div:nth-child(3) {
@@ -25,6 +29,20 @@
 .label-width {
   display: inline-block;
   width: 70px;
+}
+
+.login label {
+  width: 70px;
+  text-align: left;
+  padding-right: 5px;
+}
+
+.login input[type="text"],
+.login input[type="password"] {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 40px;
 }
 
 .submit-button {
@@ -37,6 +55,7 @@
   font: inherit;
   box-sizing: content-box;
   padding: 0;
+  margin-top: 30px;
 }
 
 /* 회원가입 */
@@ -44,17 +63,19 @@
   border: 0;
   margin: 20px 0;
 }
-.field ul {
-  list-style: none;
-  /* 2. flex */
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 10px;
+
+.field > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
 }
-.field legend {
-  float: left;
-  width: 70px;
-}
-[type="checkbox"]:checked + label {
-  font-weight: bold;
+
+.field input[type="text"],
+.field input[type="password"] {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 40px;
 }

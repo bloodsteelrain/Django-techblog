@@ -1,16 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <p>게시글 작성</p>
 
-  {% if form.errors %}
-    {% include 'blog/form_error.html' %}
-  {% else %}
-    <form action="{% url 'blog:write' %}" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" class="btn btn-outline-success"/>
-    </form>
-  {% endif %}
+  <div class="write-main">
+    <!-- 글쓰기 페이지 -->
+    <h2 class="main-title">글쓰기</h2>
+    <p class="main-desc">내용을 입력해주세요.</p>
 
+    {% if form.errors %}
+      {% include 'blog/form_error.html' %}
+    {% else %}
+      <form action="{% url 'blog:write' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table write">
+          <colgroup>
+            <col style="width: 120px">
+            <col>
+          </colgroup>
+          <tbody>
+            <tr>
+              <th>
+                <label for="{{ form.category.id_for_label }}">카테고리</label>
+              </th>
+              <td>
+                {{ form.category }}
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label for="{{ form.title.id_for_label }}">제목</label>
+              </th>
+              <td>{{ form.title }}
+                {% if form.title.errors %}
+                  <div class="error">{{ form.title.errors }}</div>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label for="{{ form.content.id_for_label }}">내용</label>
+              </th>
+              <td>
+                {{ form.content }}
+                {% if form.content.errors %}
+                  <div class="error">{{ form.content.errors }}</div>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label for="{{ form.image.id_for_label }}">파일첨부</label>
+              </th>
+              <td>
+                {{ form.image }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="write-btn-group">
+          <a href="{% url 'blog:list' %}" class="btn">목록</a>
+          <button type="reset" class="btn">초기화</button>
+          <button type="submit" class="btn">작성</button>
+        </div>
+      </form>
+    {% endif %}
+
+    <!-- //글쓰기 페이지 -->
+  </div>
 {% endblock %}

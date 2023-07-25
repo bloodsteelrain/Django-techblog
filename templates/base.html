@@ -24,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/post.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/posts.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/wrapbox.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/view.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
@@ -37,28 +38,28 @@
       <div class="max-width">
         <h1>
           <a href="{% url 'blog:list' %}">
-            <img src="./assets/Logo.svg" alt="My Blog"/>
+            <img src="{% static 'assets/Logo.svg' %}" alt="My Blog"/>
           </a>
         </h1>
         <ul>
           {% if user.is_authenticated %}
             <!-- 로그인 -->
+            <span>환영합니다,
+              {{ user.username }}님!</span>
             <li class="profile-img">
               <a href="#">
                 <img src="./assets/profile.jpg" alt="My Page"/>
               </a>
-              <p>Welcome,
-                {{ user.username }}</p>
             </li>
             <li>
-              <a href="#" class="button">
-                <img src="./assets/icon-modify-white.svg" alt=""/>
+              <a href="{% url 'blog:write' %}" class="button">
+                <img src="{% static 'assets/icon-modify-white.svg' %}" alt=""/>
                 <span>Write</span>
               </a>
             </li>
             <li>
               <a href="{% url 'user:logout' %}" class="button white">
-                <img src="./assets/icon-logout.svg" alt=""/>
+                <img src="{% static 'assets/icon-logout.svg' %}" alt=""/>
                 <span>Logout</span>
               </a>
             </li>
@@ -68,13 +69,13 @@
             <!-- 로그아웃 -->
             <li>
               <a href="{% url 'user:login' %}" class="button gray">
-                <img src="./assets/icon-login.svg" alt=""/>
+                <img src="{% static 'assets/icon-login.svg' %}" alt=""/>
                 <span>Login</span>
               </a>
             </li>
             <li class="only-pc">
-              <a href="#" class="button gray">
-                <img src="./assets/icon-register.svg" alt=""/>
+              <a href="{% url 'user:register' %}" class="button gray">
+                <img src="{% static 'assets/icon-register.svg' %}" alt=""/>
                 <span>Register</span>
               </a>
             </li>
@@ -85,19 +86,6 @@
     </header>
     <!--// header -->
 
-    <!-- banner -->
-    <div class="banner">
-      <div class="max-width">
-        <div class="banner-contents">
-          <p class="sub-text">React Blog</p>
-          <p class="main-text">My BLOG</p>
-          <p class="description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nostrum dolor provident beatae deserunt magnam, illo neque. Maiores ipsum commodi dolorum beatae aliquid laboriosam est
-          </p>
-        </div>
-      </div>
-    </div>
-    <!-- //banner -->
     {% block content %}{% endblock %}
     <!-- footer -->
     <footer>

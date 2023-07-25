@@ -102,7 +102,7 @@ class Update(View):
         post = Post.objects.get(pk=pk)
         if request.user == post.writer:
             form = PostForm(
-                initial={'title': post.title, 'content': post.content})
+                initial={'title': post.title, 'content': post.content, 'category': post.category})
             context = {
                 'title': 'Blog',
                 'post': post,
