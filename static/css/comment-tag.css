@@ -1,0 +1,87 @@
+/* Comment form */
+form[action^="{% url 'blog:cm-write' %}"] {
+  margin-bottom: 20px;
+}
+
+/* Comment list */
+ul.comment-list {
+  list-style: none;
+  padding: 0;
+}
+
+ul.comment-list li {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+/* Comment content */
+ul.comment-list li p {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* Comment date */
+ul.comment-list li {
+  color: #555;
+}
+
+/* Comment actions (delete button and reply form) */
+ul.comment-list li .comment-actions {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+ul.comment-list li .comment-actions form {
+  margin-right: 10px;
+}
+
+/* Reply content */
+ul.comment-list li .reply-content {
+  margin-left: 20px;
+}
+
+/* Delete button style */
+ul.comment-list li .btn-delete {
+  background-color: #ccc;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Reply form style */
+ul.comment-list li .reply-form {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+ul.comment-list li .reply-form input[type="text"] {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+ul.comment-list li .reply-form input[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* No comments message */
+ul.comment-list li .no-comments {
+  color: #999;
+}
+
+/* Horizontal line */
+hr {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 30px 0;
+}

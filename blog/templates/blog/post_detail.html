@@ -43,7 +43,9 @@
           </div>
           <hr/>
           <div class="view-contents">
-            <img src="{{ post.image.url }}" alt="{{ post.title }}"/>
+            {% if post.image %}
+              <img src="{{ post.image.url }}" alt="{{ post.title }}"/>
+            {% endif %}
             <p>{{ post.content }}</p>
           </div>
           {% if post.writer == request.user %}
@@ -78,28 +80,28 @@
         <br>
         <!-- 댓글 -->
         {% if comments %}
-          <ul>
+          <ul class="comment-list">
             {% for comment in comments %}
               <li>{{ comment.content }}
                 /
                 {{ comment.created_at }}
                 {% if comment.writer == request.user or comment.post.writer == request.user %}
-                  <form action="{% url 'blog:cm-delete' pk=comment.pk %}" method='post'>
+                  <form action="{% url 'blog:cm-delete' pk=comment.pk %}" method='post' class="comment-actions">
                     {% csrf_token %}
-                    <input type="submit" value='X' class='btn'>
+                    <input type="submit" value='' class="btn-delete">
                   </form>
                 {% endif %}
-                <form action="{% url 'blog:rp-write' post_pk=post.pk comment_pk=comment.pk %}" method="post">
+                <form action="{% url 'blog:rp-write' post_pk=post.pk comment_pk=comment.pk %}" method="post" class="reply-form">
                   {% csrf_token %}
                   {{ comment_form.content }}
                   <input type="submit" value="답글 작성">
                 </form>
                 {% for reply in comment.reply_set.all %}
-                  <p>{{ reply.content }}</p>
+                  <p class="reply-content">{{ reply.content }}</p>
                   {% if comment.writer == request.user or reply.writer == request.user %}
-                    <form action="{% url 'blog:rp-delete' pk=reply.pk %}" method='post'>
+                    <form action="{% url 'blog:rp-delete' pk=reply.pk %}" method='post' class="comment-actions">
                       {% csrf_token %}
-                      <input type="submit" value='X' class='btn'>
+                      <input type="submit" value='' class="btn-delete">
                     </form>
                   {% endif %}
                 {% endfor %}
@@ -107,7 +109,7 @@
             {% endfor %}
           </ul>
         {% else %}
-          <p>댓글이 없습니다.</p>
+          <p class="no-comments">댓글이 없습니다.</p>
         {% endif %}
         <hr>
 
