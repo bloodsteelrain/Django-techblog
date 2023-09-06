@@ -23,10 +23,10 @@ class Index(View):
                     Q(content__icontains=query) |
                     Q(writer__username__icontains=query) |
                     Q(hashtag__name__icontains=query)
-                )
+                ).distinct()
             elif search_option == 'title+content':
                 posts = Post.objects.filter(
-                    Q(title__icontains=query) | Q(content__icontains=query))
+                    Q(title__icontains=query) | Q(content__icontains=query)).distinct()
             elif search_option == 'title':
                 posts = Post.objects.filter(title__icontains=query)
             elif search_option == 'content':
@@ -34,7 +34,8 @@ class Index(View):
             elif search_option == 'writer':
                 posts = Post.objects.filter(writer__username__icontains=query)
             elif search_option == 'tags':
-                posts = Post.objects.filter(hashtag__name__icontains=query)
+                posts = Post.objects.filter(
+                    hashtag__name__icontains=query).distinct()
             posts = posts.order_by('-created_at')
         else:
             posts = Post.objects.all().order_by('-created_at')
