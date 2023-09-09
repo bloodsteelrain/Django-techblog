@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import get_user_model
 from django.http import HttpResponseForbidden, Http404
 from .models import Post, Category, Comment, HashTag, Reply
 from .forms import PostForm, CommentForm, HashTagForm
